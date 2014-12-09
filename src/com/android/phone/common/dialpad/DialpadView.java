@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -104,6 +105,13 @@ public class DialpadView extends LinearLayout {
         mDigits = (EditText) findViewById(R.id.digits);
         mDelete = (ImageButton) findViewById(R.id.deleteButton);
         mOverflowMenuButton = findViewById(R.id.dialpad_overflow);
+
+        AccessibilityManager accessibilityManager = (AccessibilityManager)
+                getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+        if (accessibilityManager.isEnabled()) {
+            // The text view must be selected to send accessibility events.
+            mDigits.setSelected(true);
+        }
     }
 
     private void setupKeypad() {
